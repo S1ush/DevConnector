@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+//  model for mongoATlas for better 
 
 const UserSchema = mongoose.Schema({
     name: {
