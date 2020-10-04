@@ -1,5 +1,4 @@
 const express = require('express');
-const { route } = require('./user');
 const router = express.Router();
 
 // @route  GET api/auth
