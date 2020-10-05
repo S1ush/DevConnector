@@ -20,15 +20,19 @@ router.post('/', [
         return res.status(400).json({ error: error.array() })
     }
 
-    const { email, name, password } = req.body;
+    const { name, email, password } = req.body
+
     try {
-        // if the user already exists 
-        let email = await User.findOne({ email });
-        if (email) {
+        //  1) if the user already exists 
+        // User is the json model 
+
+        let user = await User.findOne({ email });
+        if (user) {
             res.status(500).send("User already exist")
         }
 
-        // gravatar
+        // 2) gravatar
+        // profile picture associated with the email
         const avatar = gravatar.url(
             email, {
             s: '200',
@@ -36,15 +40,28 @@ router.post('/', [
             d: 'mm'
         }
         )
-
+        // data object to be saved
         user = new User({
             name,
             email,
             avatar,
             password
-        })
+        });
 
-        // Encrpt 
+        console.log(user);
+
+        // 3) Encrpt password
+        // salt is a pool
+        const salt = await bcrypt.genSalt(10);
+        // encrption of password
+        // We encrpyt after we have passed the value from req and assigned to object which is to be saved 
+        user.password = await bcrypt.hash(password, salt);
+        // save it to database 
+        await user.save();
+
+        // 4) Return web token
+
+
 
 
 
@@ -54,6 +71,6 @@ router.post('/', [
     }
 
     console.log(req.body)
-    res.send("user api")
+    res.send("User Registered")
 })
 module.exports = router;
