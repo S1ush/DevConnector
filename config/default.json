@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://yash:yash123@devconnector.v7wxe.mongodb.net/<dbname>?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://yash:yash123@devconnector.v7wxe.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecretkey": "WillTheRealSlimShadyPleaseStandUp"
 }
