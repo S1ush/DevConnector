@@ -1,0 +1,31 @@
+{
+  "name": "",
+  "isOrdered": true,
+  "folders": {
+    "config": {
+      "name": "config",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "models": {
+      "name": "models",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "revise": {
+      "name": "revise",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "routes": {
+      "name": "routes",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    }
+  },
+  "files": {}
+}
