@@ -1,7 +1,7 @@
 const express = require("express");
 const connectDb = require('./config/db')
 const app = express();
-const {check,validator} = require('express-validator');
+const { check, validator } = require('express-validator');
 // we use to call body parser but in the new update the body parser is actuall a part of Express
 
 

@@ -18,7 +18,7 @@ const connectDb = async () => {
         console.log('..Mongoose Connected')
 
     } catch (err) {
-        console.error(err)
+        console.error(err.message)
 
         // exit process on failure
 
