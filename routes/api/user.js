@@ -66,7 +66,7 @@ router.post(
 					id: user.id,
 				},
 			};
-			console.log(payload);
+			// console.log(payload);
 
 			 let token =  jwt.sign(
 				payload,
