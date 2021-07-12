@@ -1,46 +1,67 @@
 // const express = require('express');
-// const router = express.Router()
-// const { check, validationResult } = require('express-validator');
+// const router = express.Router;
+// const {body,validationResult} = require('express-validator');
 // const User = require('../../models/User')
-// const gravatar = require('gravatar')
+// const gravatar = require('gravatar');
+// const bcrpyt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const config = require('config');
 
-// router.post('', [
-//     check('name', 'Please enter valid name ').not().isEmpty(),
-//     check('email', 'Pleaser enter a valie Email address').isEmail(),
-//     check()
-// ], async (req, res) => {
-//     const error = validationResult(req);
-//     if (!error.isEmpty) {
-//         return res.status(400).json({ error: error.array() })
-//     }
-//     try {
+// // @route   POSt api/user
+// // @desc    Register
+// // @access  public
 
-//         const { user, email, password } = req.body()
-//         // check exiting user
-//         const email = User.findOne({ email })
-//         if (email.isEmail) {
-//             res.status(400).send("Already User Exits")
+// router.post('/',[
+//  body('name','Enter name ').not().notEmpty()
+// ], async (req,res) =>{
+//     try{
+//         const error = validationResult(req)
+//         if(!error.isEmpty){
+//             return res.send(400).json({error:error.array()});
+
+//         }
+//         const { name,email,password} = req.body
+//         //  check user exist 
+//         const user = await User.findOne({email})
+//         if (user){
+//             res.send(400).json ([error:'user already exists '])
+//         }
+//         // object to user
+//         let user = new User({
+//             name,
+//             email,
+//             password,
+//             avatar 
+//         }) 
+
+
+
+//         //  gravatar 
+//         const avatar = gravatar.url(email, )
+
+//         //  encrpy 
+//         const salt = bcrpyt.genSalt(10)
+//         user.password = await bcrpyt.hash(user.password,salt)
+//         //  jwt 
+//         let payload = {
+//             id : user.id
 //         }
 
-//         const avatar = gravatar.url(
-//             email, {
+//         jwt.sign(payload,config.get('jwtSecret'),{
+//             expiresIn: 36000
+//         }(err, Token)=>{
+//             if (err) throw: err
+//             res.json({token})
 
-//             s: '200',
-//             d: 'mm',
-//             r: 'pg'
-//         }
-//         )
-//         // gravatar 
+//         })
+        
 
-//         // encrypt password
-
-
-//     } catch (err) {
-//         console.error(err.message)
+//     }catch(err){
+//         console.log(err.message);
 //     }
-//     res.send('user api ')
 // })
 
 
 
-// module.exports = router 
+
+// module.exports = 
