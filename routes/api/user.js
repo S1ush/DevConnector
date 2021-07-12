@@ -31,7 +31,7 @@ router.post(
 
 			let user = await User.findOne({ email });
 			if (user) {
-				res.status(500).send("User already exist");
+				return res.status(500).send("User already exist");
 			}
 
 			// 2) gravatar
@@ -66,23 +66,20 @@ router.post(
 					id: user.id,
 				},
 			};
+			console.log(payload);
 
-			jwt.sign(
+			 let token =  jwt.sign(
 				payload,
 				config.get("jwtSecretkey"),
-				{ expiresIn: 36000 },
-				(err, token) => {
-					if (err) throw err;
-					res.json({ token });
-				}
-			);
+				{ expiresIn: 36000 });
+			res.json({token});
 		} catch (err) {
 			console.error(err.message);
-			res.status(500).send("Server Error");
+			return res.status(500).send("Server Error");
 		}
 
 		console.log(req.body);
-		res.send("User Registered");
+		return res.send("User Registered");
 	}
 );
 module.exports = router;
