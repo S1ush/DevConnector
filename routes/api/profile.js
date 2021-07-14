@@ -11,7 +11,7 @@ const { check, validationResult } = require("express-validator");
 router.get("/me", auth, async (req, res) => {
 	// get user from user.id as per header
 	try {
-		const profile = await Profile.findOne({ user: req.body.id }).populate(
+		const profile = await Profile.findOne({ user: req.user.id }).populate(
 			"user",
 			["name", "gravatar"]
 		);
@@ -82,8 +82,12 @@ router.post(
 		if (facebook) profileFields.social.facebook = facebook;
 		// console.log(profileFields);
 		try {
-			let profile = await Profile.findOne({ user: req.body.id });
-			console.log(profile);
+			let profile = await Profile.findOneAndUpdate(
+				{ user: req.user.id },
+				{ $set: profileFields },
+				{ new: true, upsert: true }
+			);
+			// res.json(profile);
 			// update
 			if (profile) {
 				profile = await Profile.findOneAndUpdate(
@@ -92,12 +96,13 @@ router.post(
 					{ new: true, upsert: true, setDefaultsOnInsert: true }
 				);
 				return res.json(profile);
-			} else {
-				// Create
-				profile = new Profile(profileFields);
-				await profile.save();
-				return res.json(profile);
 			}
+			//  else {
+			// 	// Create
+			// 	profile = new Profile(profileFields);
+			// 	await profile.save();
+			// 	return res.json(profile);
+			// }
 		} catch (err) {
 			console.error(err.message);
 			return res.status(400).json("Server Error");
@@ -111,8 +116,31 @@ router.post(
 
 router.get("/", async (req, res) => {
 	try {
+		const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+		res.send(profiles);
 	} catch (error) {
 		console.error(error.message);
+		res.status(500).json("Server Error");
+	}
+});
+
+// @route   GET api/user/:user_id
+// @desc    get profile by user id
+// @access  publci
+
+router.get("/user/:user_id", async (req, res) => {
+	try {
+		const profile = await Profile.findOne({
+			user: req.params.user_id,
+		}).populate("user", ["name", "avatar"]);
+		if (!profile)
+			return res.status(400).json({ msg: "There is no profile for this user" });
+		res.send(profile);
+	} catch (error) {
+		console.error(error.message);
+		if (error.kind == "ObjectId") {
+			return res.status(400).json({ msg: "Profile not found" });
+		}
 		res.status(500).json("Server Error");
 	}
 });

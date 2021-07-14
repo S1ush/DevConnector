@@ -68,11 +68,10 @@ router.post(
 			};
 			// console.log(payload);
 
-			 let token =  jwt.sign(
-				payload,
-				config.get("jwtSecretkey"),
-				{ expiresIn: 36000 });
-			res.json({token});
+			let token = jwt.sign(payload, config.get("jwtSecretkey"), {
+				expiresIn: 3600000,
+			});
+			res.json({ token });
 		} catch (err) {
 			console.error(err.message);
 			return res.status(500).send("Server Error");
