@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb+srv://yash:yash123@devconnector.v7wxe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "jwtSecretkey": "WillTheRealSlimShadyPleaseStandUp"
+    "jwtSecretkey": "WillTheRealSlimShadyPleaseStandUp",
+    "githubClientId": "e828f428fc3d00ca261b",
+    "githubSecret": "19a3b31ec8f8536c757f01b73173c11279aacbc8"
 }
