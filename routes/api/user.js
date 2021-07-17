@@ -49,7 +49,7 @@ router.post(
 				password,
 			});
 
-			console.log(user);
+			// console.log(user);
 
 			// 3) Encrpt password
 			// salt is a pool
@@ -76,9 +76,6 @@ router.post(
 			console.error(err.message);
 			return res.status(500).send("Server Error");
 		}
-
-		console.log(req.body);
-		return res.send("User Registered");
 	}
 );
 module.exports = router;
