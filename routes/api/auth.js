@@ -7,7 +7,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 // @route  GET api/auth
-// @desc   Test route
+// @desc   get user by ID
 // @access public
 router.get("/", auth, async (req, res) => {
 	try {
