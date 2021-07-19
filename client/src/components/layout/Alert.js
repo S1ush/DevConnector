@@ -8,7 +8,7 @@ const Alert = ({ alerts }) =>
 	alerts.map((alert) => (
 		<div
 			key={alert.id}
-			className={`alert vov zoom-in alert-${alert.alertType}`}
+			className={`alert vov zoom-in  alert-${alert.alertType}`}
 		>
 			{alert.msg}
 		</div>

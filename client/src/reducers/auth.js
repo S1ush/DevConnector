@@ -7,7 +7,7 @@ const initialState = {
 	user: null,
 };
 
-export default function (state = initialState, action) {
+const register = (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case REGISTER_SUCESS:
@@ -28,6 +28,8 @@ export default function (state = initialState, action) {
 			};
 
 		default:
-			break;
+			return state;
 	}
-}
+};
+
+export default register;
