@@ -6,6 +6,27 @@ import {
 	AUTH_ERRORL,
 } from "./types";
 import { setAlert } from "./alert";
+import setAuthToken from "../utils/setAuth";
+
+// load user
+export const loaduser = () => async (dispatch) => {
+	if (localStorage.token) {
+		setAuthToken(localStorage.token);
+	}
+
+	try {
+		const res = await axios.get("/api/auth");
+
+		dispatch({
+			type: USER_LOADED,
+			payload: res.data,
+		});
+	} catch (error) {
+		dispatch({
+			type: AUTH_ERRORL,
+		});
+	}
+};
 
 // register user
 export const register =
