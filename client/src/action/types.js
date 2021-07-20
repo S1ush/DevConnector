@@ -4,3 +4,6 @@ export const REGISTER_SUCESS = "REGISTER_SUCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERRORL = "AUTH_ERRORL";
+export const LOGIN_SUCESS = "LOGIN_SUCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";

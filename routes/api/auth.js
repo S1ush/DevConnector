@@ -28,8 +28,8 @@ router.post(
 		check("password", "Password Required ").exists(),
 	],
 	async (req, res) => {
-		const error = validationResult(req);
-		if (!error.isEmpty()) {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
 			return res.status(400).json({ error: error.array() });
 		}
 
@@ -41,14 +41,18 @@ router.post(
 
 			let user = await User.findOne({ email });
 			if (!user) {
-				return res.status(400).json({ errors: { msg: "Invalid Credentials" } });
+				return res
+					.status(400)
+					.json({ errors: [{ msg: "Invalid Credentials" }] });
 			}
 
 			// 2) check password
 			const isMatch = await bcrypt.compare(password, user.password);
 
 			if (!isMatch) {
-				return res.status(400).json({ errors: { msg: "Invalid Credentials" } });
+				return res
+					.status(400)
+					.json({ errors: [{ msg: "Invalid Credentials" }] });
 			}
 
 			// 4) Return web token
