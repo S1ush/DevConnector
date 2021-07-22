@@ -7,10 +7,10 @@ const { check, validationResult } = require("express-validator");
 const { request } = require("express");
 const request1 = require("request");
 const config = require("config");
+
 // @route   GET api/profile/me
 // @desc    Get user profile
 // @access  private
-
 router.get("/me", auth, async (req, res) => {
 	// get user from user.id as per header
 	try {
