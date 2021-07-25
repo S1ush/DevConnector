@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../action/profile";
+import { getCurrentProfile } from "../../action/profile";
 
 const CreateProfile = ({ createProfile, history }) => {
 	const [formData, setformData] = useState({
@@ -221,6 +222,13 @@ const CreateProfile = ({ createProfile, history }) => {
 
 CreateProfile.propTypes = {
 	createProfile: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired,
+	profile: PropTypes.object.isRequired,
 };
+const mapStateToProps = (state) => ({
+	profile: state.profile,
+});
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+	withRouter(CreateProfile)
+);

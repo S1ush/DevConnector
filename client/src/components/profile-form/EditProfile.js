@@ -69,6 +69,7 @@ const EditProfile = ({
 	const onSubmit = (e) => {
 		e.preventDefault();
 		console.log("1");
+		console.log(profile);
 		createProfile(formData, history, true);
 	};
 
@@ -252,10 +253,9 @@ EditProfile.propTypes = {
 	profile: PropTypes.object.isRequired,
 };
 
-const mapStatetoProp = (state) => ({
+const mapStateToProps = (state) => ({
 	profile: state.profile,
 });
-
-export default connect(mapStatetoProp, { createProfile, getCurrentProfile })(
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
 	withRouter(EditProfile)
 );
