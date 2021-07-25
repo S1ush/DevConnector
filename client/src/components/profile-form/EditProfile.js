@@ -71,6 +71,7 @@ const EditProfile = ({
 		console.log("1");
 		console.log(profile);
 		createProfile(formData, history, true);
+		// history.push("/dashboard");
 	};
 
 	return (

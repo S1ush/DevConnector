@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../action/profile";
 import { getCurrentProfile } from "../../action/profile";
 
-const CreateProfile = ({ createProfile, history }) => {
+const CreateProfile = ({ createProfile, getCurrentProfile, history }) => {
 	const [formData, setformData] = useState({
 		company: "",
 		website: "",
@@ -39,6 +39,11 @@ const CreateProfile = ({ createProfile, history }) => {
 
 	const onChange = (e) =>
 		setformData({ ...formData, [e.target.name]: e.target.value });
+
+	useEffect(() => {
+		getCurrentProfile();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [getCurrentProfile]);
 
 	const onSubmit = (e) => {
 		e.preventDefault();

@@ -43,10 +43,7 @@ export const createProfile =
 			dispatch(
 				setAlert(edit ? "Profile updated " : "Profile Created", "success")
 			);
-
-			if (!edit) {
-				history.push("/dashboard");
-			}
+			history.push("/dashboard");
 		} catch (err) {
 			const errors = err.response.data.errors;
 			console.log(errors);
@@ -115,8 +112,8 @@ export const addEducation = (formData, history) => async (dispatch) => {
 		dispatch(setAlert("Education Added ", "success"));
 	} catch (err) {
 		const errors = err.response.data.errors;
-		console.log(errors);
-		console.log(err.response);
+		// console.log(errors);
+		// console.log(err.response);
 
 		if (errors) {
 			errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));

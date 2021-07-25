@@ -163,7 +163,7 @@ router.put(
 	async (req, res) => {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty())
-			return res.status(400).json({ error: errors.array() });
+			return res.status(400).json({ errors: errors.array() });
 		const { title, company, location, from, to, current, description } =
 			req.body;
 
