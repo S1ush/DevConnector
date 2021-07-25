@@ -27,8 +27,6 @@ const EditProfile = ({
 	});
 	const [displaySocailInputs, toggleSocialInputs] = useState(false);
 
-	console.log(profile);
-
 	useEffect(() => {
 		getCurrentProfile();
 
@@ -47,6 +45,7 @@ const EditProfile = ({
 			youtube: loading || !profile.social ? "" : profile.social.youtube,
 			instagram: loading || !profile.social ? "" : profile.social.instagram,
 		});
+		// eslint-disable-next-line
 	}, [loading, getCurrentProfile]);
 
 	const {

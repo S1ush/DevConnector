@@ -29,26 +29,24 @@ router.get("/me", auth, async (req, res) => {
 	}
 });
 
-// @route   GET api/profile/CreateProfile
-// @desc    Create Profile
-// @access  private
-
+// @route    POST api/profile
+// @desc     Create or update user profile
+// @access   Private
 router.post(
 	"/createprofile",
 	[
 		auth,
 		[
-			check("status", "Status is Required").not().isEmpty(),
-			check("skills", "Skills is Required").not().isEmpty(),
+			check("status", "Status is required").not().isEmpty(),
+			check("skills", "Skills is required").not().isEmpty(),
 		],
 	],
 	async (req, res) => {
 		const errors = validationResult(req);
-		// res.send(errors);
 		if (!errors.isEmpty()) {
-			return res.status(500).json({ errors: errors.array() });
+			return res.status(400).json({ errors: errors.array() });
 		}
-		// destructure the request
+
 		const {
 			company,
 			website,
@@ -58,14 +56,14 @@ router.post(
 			githubusername,
 			skills,
 			youtube,
+			facebook,
 			twitter,
 			instagram,
 			linkedin,
-			facebook,
 		} = req.body;
 
-		// build profilefields
-		let profileFields = {};
+		// Build profile object
+		const profileFields = {};
 		profileFields.user = req.user.id;
 		if (company) profileFields.company = company;
 		if (website) profileFields.website = website;
@@ -73,42 +71,29 @@ router.post(
 		if (bio) profileFields.bio = bio;
 		if (status) profileFields.status = status;
 		if (githubusername) profileFields.githubusername = githubusername;
-		if (skills)
-			profileFields.skills = skills.split(",").map((skills) => skills.trim());
-		// console.log(profileFields.skills);
-		// build socialfields
+		if (skills) {
+			profileFields.skills = skills.split(",").map((skill) => skill.trim());
+		}
+
+		// Build social object
 		profileFields.social = {};
-		if (linkedin) profileFields.social.linkedin = linkedin;
-		if (twitter) profileFields.social.twitter = twitter;
 		if (youtube) profileFields.social.youtube = youtube;
-		if (instagram) profileFields.social.instagram = instagram;
+		if (twitter) profileFields.social.twitter = twitter;
 		if (facebook) profileFields.social.facebook = facebook;
-		// console.log(profileFields);
+		if (linkedin) profileFields.social.linkedin = linkedin;
+		if (instagram) profileFields.social.instagram = instagram;
+
 		try {
+			// Using upsert option (creates new doc if no match is found):
 			let profile = await Profile.findOneAndUpdate(
 				{ user: req.user.id },
 				{ $set: profileFields },
 				{ new: true, upsert: true }
 			);
-			// res.json(profile);
-			// update
-			if (profile) {
-				profile = await Profile.findOneAndUpdate(
-					{ user: req.body.id },
-					{ $set: profileFields },
-					{ new: true, upsert: true, setDefaultsOnInsert: true }
-				);
-				return res.json(profile);
-			}
-			//  else {
-			// 	// Create
-			// 	profile = new Profile(profileFields);
-			// 	await profile.save();
-			// 	return res.json(profile);
-			// }
+			res.json(profile);
 		} catch (err) {
 			console.error(err.message);
-			return res.status(400).json("Server Error");
+			res.status(500).send("Server Error");
 		}
 	}
 );
@@ -163,7 +148,7 @@ router.delete("/", auth, async (req, res) => {
 	}
 });
 
-// @route   PUT api/profile
+// @route   PUT api/profile/experience
 // @desc    Add profile experience
 // @access  private
 
