@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 import Experience from "./Experience";
 import DashboardAction from "./DashboardAction";
 import Education from "./Education";
+import { deleteAccount } from "../../action/profile";
 
 const Dashboard = ({
 	getCurrentProfile,
+	deleteAccount,
 	auth: { user },
 	profile: { profile, loading },
 }) => {
@@ -25,12 +27,18 @@ const Dashboard = ({
 			<p className='lead'>
 				<i className='fas fa-user'>Welcome {user && user.name}</i>
 			</p>
-			{profile !== undefined ? (
+			{profile !== undefined && profile !== null ? (
 				<Fragment>
 					{console.log(profile)}
 					<DashboardAction />
 					<Experience experience={profile.experience} />
 					<Education education={profile.education} />
+					<div className='my-2'>
+						<button className='btn btn-danger' onClick={() => deleteAccount()}>
+							<i className='fas fa-user-minus'></i>
+							Delete My Account
+						</button>
+					</div>
 				</Fragment>
 			) : (
 				<Fragment>
@@ -48,6 +56,7 @@ Dashboard.propTypes = {
 	getCurrentProfile: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	profile: PropTypes.object.isRequired,
+	deleteAccount: PropTypes.func.isRequired,
 };
 
 const mapStatetoProp = (state) => ({
@@ -55,4 +64,6 @@ const mapStatetoProp = (state) => ({
 	profile: state.profile,
 });
 
-export default connect(mapStatetoProp, { getCurrentProfile })(Dashboard);
+export default connect(mapStatetoProp, { getCurrentProfile, deleteAccount })(
+	Dashboard
+);

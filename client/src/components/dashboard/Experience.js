@@ -2,27 +2,30 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
-
-const Experience = ({ experience }) => {
-	console.log();
+import { deleteExperience } from "../../action/profile";
+import formatDate from "../../utils/formatDate";
+import { withRouter } from "react-router";
+const Experience = ({ experience, deleteExperience, history }) => {
 	const experiences = experience.map((exp) => (
-		<tr key={exp.id}>
-			<td>{exp.company}</td>
-			<td className='hide-sm'>{exp.title}</td>
-			<td>
-				<Moment format='YYYY/MM/DD'>{exp.from}</Moment> -{" "}
-				{exp.to === null ? (
-					"Now"
-				) : (
-					<Moment format='YYYY/MM/DD'>{exp.to}</Moment>
-				)}
+		<tr key={exp._id}>
+			<td key={exp.company}>{exp.company}</td>
+			<td className='hide-sm' key={exp.title}>
+				{exp.title}
+			</td>
+			<td key={(exp.from, exp.to)}>
+				{formatDate(exp.from)} - {exp.to ? formatDate(exp.to) : "Now"}
 			</td>
 			<td>
-				{" "}
-				<button className='btn btn-danger'> Delete</button>
+				<button
+					onClick={() => deleteExperience(exp._id, history)}
+					className='btn btn-danger'
+				>
+					Delete
+				</button>
 			</td>
 		</tr>
 	));
+
 	return (
 		<Fragment>
 			<h2 className='my-2'>Experience Credentials</h2>
@@ -43,6 +46,7 @@ const Experience = ({ experience }) => {
 
 Experience.propTypes = {
 	experience: PropTypes.array.isRequired,
+	deleteExperience: PropTypes.func.isRequired,
 };
 
-export default Experience;
+export default connect(null, { deleteExperience })(withRouter(Experience));
