@@ -27,7 +27,7 @@ router.post(
 				avatar: user.avatar,
 				user: req.user.id,
 			});
-			console.log(req.user.name);
+			// console.log(req.user.naame);
 
 			const post = await newPost.save();
 			res.json(post);
@@ -60,9 +60,9 @@ router.get("/:id", auth, async (req, res) => {
 		const post = await Post.findById(req.params.id);
 		if (!post) return res.status(404).json({ msg: "Post not found" });
 		res.send(post);
-	} catch (err) {
-		console.error(err.message);
-		if (err.kind == "ObjectId")
+	} catch (error) {
+		console.error(error.message);
+		if (error.kind == "ObjectId")
 			return res.status(404).json({ msg: "Post not found" });
 		res.status(400).json({ msg: "Server Error " });
 	}
@@ -79,15 +79,11 @@ router.delete("/:id", auth, async (req, res) => {
 		if (post.user.toString() != req.user.id) {
 			return res.status(401).json({ msg: "User not Authorized" });
 		}
-		// console.log("hey");
-
 		await post.remove();
 		res.send(post);
 	} catch (err) {
 		console.error(err.message);
-		if (err.kind == "ObjectId")
-			return res.status(404).json({ msg: "Post not found" });
-		res.status(400).json({ msg: "Server Error " });
+		res.status(500).send("Server Error");
 	}
 });
 
