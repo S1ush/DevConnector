@@ -5,6 +5,7 @@ import { getPosts } from "../../action/post";
 import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
 import post from "../../reducers/post";
+import Postform from "./Postform";
 
 const Posts = ({ getPosts, post: { posts, loading } }) => {
 	useEffect(() => {
@@ -18,7 +19,8 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
 			<p className='lead'>
 				<i className='fas fa-user'></i> Welcome to the Community
 			</p>
-			{/* {post form} */}
+			<Postform />
+
 			<div className='posts'>
 				{posts.map((post) => (
 					<PostItem key={post._id} post={post} />
